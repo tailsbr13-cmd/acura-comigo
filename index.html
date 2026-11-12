@@ -1,0 +1,195 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8"><title>Acura Comigo</title>
+<style>
+:root{--bg:#262626;--card:#000;--field:#2f2f2f;--side:#151d33;--top:#16205a;--acc:#2f6bff;--tx:#f1f3f8;--mut:#9aa4bd;--ok:#2ecc71;--bad:#ff5c5c}
+*{box-sizing:border-box}html,body{height:100%;margin:0}
+body{font:14px "Segoe UI",system-ui,sans-serif;color:var(--tx);background:var(--bg);display:flex;flex-direction:column}
+button,input,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer;background:none;border:0}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+#top{background:linear-gradient(90deg,#16205a,#1b2a6b);padding:14px 20px;display:flex;align-items:center;gap:14px}
+.logo{width:42px;height:42px;border-radius:10px;background:var(--acc);display:grid;place-items:center;font-weight:700;font-size:20px}
+#top h1{font-size:19px;margin:0}#top small{color:#b7c4ff}
+#top .sp{flex:1}.ic{padding:6px 10px;border-radius:8px;color:var(--mut)}.ic:hover{background:#ffffff18;color:#fff}
+#app{flex:1;display:flex;min-height:0}
+#side{width:270px;background:var(--side);display:flex;flex-direction:column;padding:14px;gap:8px}
+#q{width:100%;background:#26324f;border:0;border-radius:10px;padding:11px 12px}
+.sh{display:flex;justify-content:space-between;align-items:center;font-weight:600;margin-top:8px;padding:0 4px}
+#list{flex:1;overflow:auto;display:flex;flex-direction:column;gap:4px}
+.it{text-align:left;padding:10px 12px;border-radius:10px;width:100%}
+.it small{display:block;color:var(--mut);margin-top:2px}
+.it:hover{background:#ffffff10}.it.on{background:#2c4a80}
+.nav{border-top:1px solid #2c3858;padding-top:8px;display:flex;flex-direction:column}
+.nav button{text-align:left;padding:8px 6px;border-radius:8px;color:#dfe5f7}.nav button:hover,.nav button.on{background:#ffffff12}
+#main{flex:1;overflow:auto;padding:22px 26px}
+.head{display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.head h2{margin:0;font-size:22px}.head p{margin:3px 0 0;color:var(--mut)}
+.head .g{flex:1}.tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.tools input,.tools select{background:var(--field);border:1px solid #444;border-radius:8px;padding:6px 8px;color-scheme:dark}
+.btn{background:var(--acc);padding:7px 14px;border-radius:8px;font-weight:600}.btn.g2{background:#3a3a3a}
+.card{background:var(--card);border-radius:12px;padding:16px 18px;margin-bottom:14px;max-width:880px}
+.ch{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.ch .t{font-size:17px;font-weight:700;color:var(--tx)}a{color:#4d8dff;text-decoration:none}a:hover{text-decoration:underline}
+.ch .sp{flex:1}.badge{font-size:12px;color:var(--ok);background:#0f2a18;padding:3px 10px;border-radius:99px;opacity:0;transition:opacity .3s}.badge.v{opacity:1}
+.row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+label{display:block;font-size:12px;color:var(--mut);margin:8px 0 4px}
+.f{width:100%;background:var(--field);border:1px solid transparent;border-radius:8px;padding:9px 10px;color-scheme:dark}
+.f:focus{border-color:var(--acc);outline:0}textarea.f{min-height:80px;resize:vertical}
+.drop{margin-top:12px;border:1px dashed #666;border-radius:10px;padding:12px;text-align:center;color:var(--mut)}
+.drop.over{border-color:var(--acc);background:#2f6bff18}.drop button{color:#4d8dff}
+.th{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;justify-content:flex-start}
+.th div{position:relative}.th img{width:96px;height:72px;object-fit:cover;border-radius:8px;cursor:zoom-in;display:block}
+.th .x{position:absolute;top:3px;right:3px;background:#000b;border-radius:50%;width:20px;height:20px;line-height:20px;font-size:11px}.th .x:hover{background:var(--bad)}
+.acts{display:flex;gap:4px;margin-top:10px;justify-content:flex-end}.acts button{padding:5px 10px;border-radius:8px;color:var(--mut)}.acts button:hover{background:#222;color:#fff}.acts .on{color:#ffc933}.acts .del:hover{color:var(--bad)}
+.new{display:block;width:100%;max-width:880px;border:1px dashed #666;border-radius:12px;padding:22px;color:var(--mut)}.new:hover{border-color:var(--acc);color:#fff}
+.empty{color:var(--mut);padding:40px 0;max-width:520px;line-height:1.6}
+dialog{background:#1b2338;color:var(--tx);border:1px solid #3a4768;border-radius:14px;padding:20px;width:420px}
+dialog::backdrop{background:#000a}dialog .f{background:#2a3454}dialog .bt{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
+#lb{position:fixed;inset:0;background:#000d;display:none;place-items:center;z-index:9;cursor:zoom-out}#lb.on{display:grid}#lb img{max-width:92vw;max-height:92vh;border-radius:8px}
+#toast{position:fixed;bottom:18px;right:18px;background:#1b2338;border:1px solid #3a4768;padding:8px 14px;border-radius:10px;opacity:0;transition:opacity .25s;pointer-events:none}#toast.v{opacity:1}
+@media(max-width:1000px){.row{grid-template-columns:1fr}}
+.hd{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.badge.u{color:#ffb020;background:#2e2410;opacity:1}
+.acts .sv{color:#fff;margin-right:auto;padding:7px 16px}.acts .sv:hover{background:#4a7cff;color:#fff}
+.card:not(.dirty) [data-act=disc]{display:none}.card.dirty{outline:1px solid #ffb02066}
+#dirty{color:#ffb020;font-size:13px;display:none}
+#dirty.on{display:block}
+</style></head><body>
+<div id="top"><div class="logo">A</div><div><h1>ACURA COMIGO</h1><small>Organizador de Checkpoint Semanal</small></div><div class="sp"></div><span id="dirty"></span><button class="ic" id="cfg" title="Configurações">⚙</button></div>
+<div id="app">
+ <aside id="side">
+  <input id="q" placeholder="Buscar artigo ou chat…">
+  <div class="sh">Meus artigos <button class="ic" id="na" title="Novo artigo">+</button></div>
+  <div id="list"></div>
+  <div class="nav"><button id="nv-new">+ Novo artigo</button><button id="nv-all">Todos os registros</button><button id="nv-fav">Favoritos</button></div>
+ </aside>
+ <main id="main"></main>
+</div>
+<dialog id="dlg"><h3 id="dt" style="margin-top:0"></h3><label>Nome do artigo</label><input class="f" id="dn"><label>Link de referência (opcional)</label><input class="f" id="du" placeholder="https://…"><div class="bt"><button class="btn g2" id="dc">Cancelar</button><button class="btn" id="ds">Salvar</button></div></dialog>
+<dialog id="cdlg"><h3 style="margin-top:0">Configurações</h3><p style="color:var(--mut)">Seus dados ficam salvos neste computador:</p><p id="cp" style="word-break:break-all"></p><div class="bt"><button class="btn g2" id="co">Abrir pasta</button><button class="btn" id="cx">Fechar</button></div></dialog>
+<dialog id="gd"><h3 style="margin-top:0">Alterações não salvas</h3><p style="color:var(--mut)">Você tem registros com alterações que ainda não foram salvas. O que deseja fazer?</p><div class="bt"><button class="btn g2" id="gc">Cancelar</button><button class="btn g2" id="gx">Descartar</button><button class="btn" id="gs">Salvar</button></div></dialog>
+<input type="file" id="fi" accept="image/*" multiple hidden>
+<div id="lb"><img></div><div id="toast"></div>
+<script>
+const {ipcRenderer,shell}=require('electron'),fs=require('fs'),path=require('path'),{pathToFileURL}=require('url');
+const dir=ipcRenderer.sendSync('path'),imgDir=path.join(dir,'images'),file=path.join(dir,'data.json');
+fs.mkdirSync(imgDir,{recursive:true});
+const $=s=>document.querySelector(s),uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const url=u=>!u?'':/^https?:\/\//i.test(u)?u:'https://'+u;
+const clone=o=>JSON.parse(JSON.stringify(o));
+const today=()=>{const d=new Date();return new Date(d-d.getTimezoneOffset()*6e4).toISOString().slice(0,10)};
+let db=(()=>{for(const f of [file,file+'.bak']){try{return JSON.parse(fs.readFileSync(f,'utf8'))}catch(e){}}return{articles:[],records:[]}})();
+let view={t:'all'},q='',df='',sort='dnew',focusId=null,pend=null,editing=null;
+if(db.articles.length)view={t:'a',id:db.articles[0].id};
+// ---- disco: gravação atômica + cópia .bak (somente chamada por ações de salvar) ----
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('v');clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove('v'),1800)}
+function flush(){try{const tmp=file+'.tmp';fs.writeFileSync(tmp,JSON.stringify(db));if(fs.existsSync(file))fs.copyFileSync(file,file+'.bak');fs.renameSync(tmp,file);return true}catch(e){toast('Erro ao salvar: '+e.message);return false}}
+const delFile=n=>{try{fs.unlinkSync(path.join(imgDir,n))}catch(e){}};
+// ---- rascunhos: alterações ficam em "work" até clicar em Salvar registro ----
+let work={},justSaved={};
+const art=id=>db.articles.find(a=>a.id===id),rec=id=>db.records.find(r=>r.id===id),cur=id=>work[id]||rec(id);
+const count=id=>db.records.filter(r=>r.articleId===id).length;
+const isDirty=id=>{const w=work[id];return !!w&&(!rec(id)||JSON.stringify(w)!==JSON.stringify(rec(id)))};
+const dirtyIds=()=>Object.keys(work).filter(isDirty);
+const imgUrl=n=>pathToFileURL(path.join(imgDir,n)).href;
+function edit(id,fn){if(!work[id])work[id]=clone(rec(id));fn(work[id]);delete justSaved[id];if(rec(id)&&!isDirty(id))delete work[id];refresh(id)}
+function saveRecord(id){const w=work[id];if(!w||!isDirty(id)){toast('Nenhuma alteração para salvar');return true}
+ const old=rec(id),i=db.records.findIndex(r=>r.id===id),backup=clone(db.records);
+ if(i>=0)db.records[i]=clone(w);else db.records.push(clone(w));
+ if(!flush()){db.records=backup;return false}
+ (old?old.images:[]).filter(n=>!w.images.includes(n)).forEach(delFile);
+ delete work[id];justSaved[id]=true;return true}
+function discard(id){const w=work[id];if(!w)return;const keep=rec(id)?.images||[];w.images.filter(n=>!keep.includes(n)).forEach(delFile);delete work[id];delete justSaved[id]}
+function guard(next){if(!dirtyIds().length)return next();const d=$('#gd');
+ $('#gc').onclick=()=>d.close();
+ $('#gx').onclick=()=>{dirtyIds().forEach(discard);d.close();next()};
+ $('#gs').onclick=()=>{if(dirtyIds().every(saveRecord)){d.close();toast('Registros salvos com sucesso');next()}};
+ d.showModal()}
+ipcRenderer.on('req-close',()=>guard(()=>ipcRenderer.send('do-close')));
+function addRecord(aid){const n={id:uid(),articleId:aid,chat:'',chatUrl:'',date:today(),notes:'',images:[],fav:false,created:Date.now()};work[n.id]=n;render();setTimeout(()=>document.querySelector(`[data-id="${n.id}"] [data-f="chat"]`)?.focus(),30)}
+async function addImages(id,files){let n=0;const names=[];
+ for(const f of files){if(!f.type.startsWith('image/'))continue;const ext=(f.type.split('/')[1]||'png').replace('jpeg','jpg').replace(/[^a-z0-9]/g,'');const name=uid()+'.'+ext;fs.writeFileSync(path.join(imgDir,name),Buffer.from(await f.arrayBuffer()));names.push(name)}
+ if(names.length){edit(id,w=>w.images.push(...names));render();toast(names.length+' imagem(ns) adicionada(s) — clique em Salvar registro')}}
+// ---- render ----
+function visible(){const ids=new Set(db.records.map(r=>r.id));
+ let l=[...db.records.map(r=>cur(r.id)),...Object.values(work).filter(w=>!ids.has(w.id))].filter(r=>view.t==='a'?r.articleId===view.id:view.t==='fav'?r.fav:true);
+ if(q){const k=q.toLowerCase();l=l.filter(r=>(r.chat||'').toLowerCase().includes(k)||(art(r.articleId)?.name||'').toLowerCase().includes(k))}
+ if(df)l=l.filter(r=>r.date===df);
+ const d=(a,b)=>(a.date||'').localeCompare(b.date||'')||a.created-b.created;
+ return l.sort(sort==='dnew'?(a,b)=>d(b,a):sort==='dold'?d:(a,b)=>b.created-a.created)}
+function renderSide(){const k=q.toLowerCase();
+ const l=db.articles.filter(a=>!k||a.name.toLowerCase().includes(k)||db.records.some(r=>r.articleId===a.id&&(r.chat||'').toLowerCase().includes(k)));
+ $('#list').innerHTML=l.map(a=>`<button class="it ${view.t==='a'&&view.id===a.id?'on':''}" data-a="${a.id}"><b>${esc(a.name)}</b><small>${count(a.id)} registro${count(a.id)==1?'':'s'}</small></button>`).join('')||'<div class="empty" style="padding:10px">Nenhum artigo encontrado.</div>';
+ $('#nv-all').classList.toggle('on',view.t==='all');$('#nv-fav').classList.toggle('on',view.t==='fav')}
+function headHtml(r){const a=art(r.articleId),cl=url(r.chatUrl),n=`Chat #${esc(r.chat||'—')}`;
+ return `<span class="t">${a?(a.url?`<a href="#" data-act="oa" title="Abrir link do artigo">${esc(a.name)}</a>`:esc(a.name)):'(artigo removido)'}</span><span>${cl?`<a href="#" data-act="oc">${n} ↗</a>`:n}</span>`}
+function badge(id){return isDirty(id)?['u','● Alterações não salvas']:justSaved[id]?['v','Salvo ✓']:['','']}
+function refresh(id){const c=document.querySelector(`[data-id="${id}"]`);
+ if(c){const r=cur(id);c.querySelector('.hd').innerHTML=headHtml(r);const b=c.querySelector('.badge'),[k,t]=badge(id);b.className='badge '+k;b.textContent=t;c.classList.toggle('dirty',isDirty(id));c.querySelector('[data-act=fav]').textContent=r.fav?'★ Favorito':'☆ Favoritar';c.querySelector('[data-act=fav]').classList.toggle('on',r.fav)}
+ const n=dirtyIds().length,d=$('#dirty');d.classList.toggle('on',n>0);d.textContent=`● ${n} registro${n>1?'s':''} com alterações não salvas`}
+function cardHtml(r){const [k,t]=badge(r.id);
+ return `<div class="card ${isDirty(r.id)?'dirty':''}" data-id="${r.id}"><div class="ch"><span class="hd">${headHtml(r)}</span><span class="sp"></span><span class="badge ${k}">${t}</span></div>
+ <div class="row"><div><label>Número do chat</label><input class="f" data-f="chat" value="${esc(r.chat)}" placeholder="123456"></div>
+ <div><label>Link do chat</label><input class="f" data-f="chatUrl" value="${esc(r.chatUrl)}" placeholder="https://…"></div>
+ <div><label>Data da conversa</label><input class="f" type="date" data-f="date" value="${esc(r.date)}"></div></div>
+ <label>Observações</label><textarea class="f" data-f="notes" placeholder="Escreva aqui suas observações sobre o artigo e a conversa…">${esc(r.notes)}</textarea>
+ <div class="drop"><div>Arraste imagens aqui, cole com Ctrl + V ou <button data-act="pick">selecione arquivos</button></div>
+ <div class="th">${r.images.map(n=>`<div><img src="${imgUrl(n)}" data-act="zoom" data-n="${n}"><button class="x" data-act="rmimg" data-n="${n}" title="Remover">✕</button></div>`).join('')}</div></div>
+ <div class="acts"><button class="btn sv" data-act="save">Salvar registro</button><button data-act="disc">Descartar alterações</button><button data-act="fav" class="${r.fav?'on':''}">${r.fav?'★ Favorito':'☆ Favoritar'}</button><button data-act="dup">Duplicar</button><button data-act="del" class="del">Excluir</button></div></div>`}
+function renderMain(){const m=$('#main'),sc=m.scrollTop,l=visible(),a=view.t==='a'?art(view.id):null;
+ const title=a?a.name:view.t==='fav'?'Favoritos':'Todos os registros';
+ let h=`<div class="head"><div><h2>${esc(title)}</h2><p>${l.length} conversa${l.length==1?'':'s'}${a&&a.url?` · <a href="#" data-act="oa2">abrir link do artigo ↗</a>`:''}</p></div><div class="g"></div><div class="tools">
+ <input type="date" id="df" value="${esc(df)}" title="Filtrar por data">${df?'<button class="ic" id="dx">limpar</button>':''}
+ <select id="so"><option value="dnew">Data: mais recente</option><option value="dold">Data: mais antiga</option><option value="cnew">Criados por último</option></select>
+ ${a?'<button class="btn g2" data-act="ea">Editar artigo</button><button class="btn g2" data-act="da">Excluir artigo</button>':''}</div></div>`;
+ if(!db.articles.length)h+='<div class="empty"><b>Comece criando um artigo.</b><br>Cada artigo reúne todas as conversas sobre ele, sem duplicar temas.<br><br><button class="btn" data-act="na">Criar primeiro artigo</button></div>';
+ else{h+=l.map(cardHtml).join('');
+  if(!l.length)h+=`<div class="empty">Nada por aqui${q||df?' com esses filtros':' ainda'}.</div>`;
+  if(a)h+='<button class="new" data-act="nr">＋ Novo registro</button>'}
+ m.innerHTML=h;$('#so').value=sort;m.scrollTop=sc;refresh()}
+function render(){renderSide();renderMain()}
+const go=v=>guard(()=>{view=v;render()});
+// ---- eventos ----
+const main=$('#main');
+main.addEventListener('input',e=>{const c=e.target.closest('.card'),f=e.target.dataset.f;if(c&&f)edit(c.dataset.id,w=>w[f]=e.target.value)});
+main.addEventListener('change',e=>{if(e.target.id==='df'){df=e.target.value;renderMain()}else if(e.target.id==='so'){sort=e.target.value;renderMain()}});
+main.addEventListener('focusin',e=>{const c=e.target.closest('.card');if(c)focusId=c.dataset.id});
+main.addEventListener('click',e=>{const b=e.target.closest('[data-act],#dx');if(!b)return;if(b.tagName==='A')e.preventDefault();
+ const c=b.closest('.card'),id=c?.dataset.id,r=id&&cur(id),act=b.dataset.act||'dx';
+ if(act==='dx'){df='';renderMain()}
+ else if(act==='nr')addRecord(view.id);
+ else if(act==='na')openDlg(null);
+ else if(act==='ea')openDlg(view.id);
+ else if(act==='oa'){const u=art(r.articleId)?.url;if(u)shell.openExternal(url(u))}
+ else if(act==='oa2'){const u=art(view.id)?.url;if(u)shell.openExternal(url(u))}
+ else if(act==='oc'){if(r.chatUrl)shell.openExternal(url(r.chatUrl))}
+ else if(act==='save'){if(saveRecord(id)){if(!justSaved[id]);else toast('Registro salvo com sucesso');render()}}
+ else if(act==='disc'){if(confirm('Descartar as alterações deste registro?')){discard(id);render()}}
+ else if(act==='da'){const a=art(view.id),ids=[...new Set([...db.records,...Object.values(work)].filter(x=>x.articleId===a.id).map(x=>x.id))];
+  if(confirm(`Excluir o artigo "${a.name}" e seus ${count(a.id)} registros salvos?`)){const bk=clone(db);ids.forEach(i=>{[rec(i),work[i]].forEach(x=>x&&x.images.forEach(delFile));delete work[i]});db.records=db.records.filter(x=>x.articleId!==a.id);db.articles=db.articles.filter(x=>x.id!==a.id);flush();view=db.articles[0]?{t:'a',id:db.articles[0].id}:{t:'all'};render()}}
+ else if(act==='fav')edit(id,w=>w.fav=!w.fav);
+ else if(act==='dup'){const n=clone(r);n.id=uid();n.created=Date.now();n.fav=false;n.images=r.images.map(i=>{const x=uid()+path.extname(i);fs.copyFileSync(path.join(imgDir,i),path.join(imgDir,x));return x});work[n.id]=n;render();toast('Cópia criada — clique em Salvar registro')}
+ else if(act==='del'){if(confirm('Excluir este registro e suas imagens?')){const s=rec(id);if(s){s.images.forEach(delFile);db.records=db.records.filter(x=>x.id!==id);flush()}discard(id);render()}}
+ else if(act==='pick'){pend=id;$('#fi').click()}
+ else if(act==='zoom'){$('#lb img').src=imgUrl(b.dataset.n);$('#lb').classList.add('on')}
+ else if(act==='rmimg'){edit(id,w=>w.images=w.images.filter(n=>n!==b.dataset.n));render()}});
+$('#fi').onchange=e=>{addImages(pend,[...e.target.files]);e.target.value=''};
+$('#lb').onclick=()=>$('#lb').classList.remove('on');
+document.addEventListener('keydown',e=>{if(e.key==='Escape')$('#lb').classList.remove('on');if(e.ctrlKey&&e.key.toLowerCase()==='s'&&focusId&&work[focusId]){e.preventDefault();if(saveRecord(focusId)){toast('Registro salvo com sucesso');render()}}});
+document.addEventListener('paste',e=>{const f=[...(e.clipboardData?.files||[])].filter(x=>x.type.startsWith('image/'));if(!f.length)return;e.preventDefault();
+ if(focusId&&cur(focusId))addImages(focusId,f);else toast('Clique em um card antes de colar a imagem')});
+document.addEventListener('dragover',e=>{e.preventDefault();document.querySelectorAll('.drop.over').forEach(d=>d.classList.remove('over'));e.target.closest?.('.card')?.querySelector('.drop')?.classList.add('over')});
+document.addEventListener('drop',e=>{e.preventDefault();document.querySelectorAll('.drop.over').forEach(d=>d.classList.remove('over'));const c=e.target.closest?.('.card');if(c)addImages(c.dataset.id,[...e.dataTransfer.files])});
+$('#list').onclick=e=>{const b=e.target.closest('[data-a]');if(b)go({t:'a',id:b.dataset.a})};
+$('#nv-all').onclick=()=>go({t:'all'});$('#nv-fav').onclick=()=>go({t:'fav'});
+$('#q').oninput=e=>{q=e.target.value.trim();render()};
+function openDlg(id){editing=id;const a=id&&art(id);$('#dt').textContent=a?'Editar artigo':'Novo artigo';$('#dn').value=a?a.name:'';$('#du').value=a?a.url||'':'';$('#dlg').showModal();$('#dn').focus()}
+$('#na').onclick=$('#nv-new').onclick=()=>openDlg(null);
+$('#dc').onclick=()=>$('#dlg').close();
+$('#ds').onclick=()=>{const n=$('#dn').value.trim();if(!n){$('#dn').focus();return}
+ if(editing){const a=art(editing);a.name=n;a.url=$('#du').value.trim()}else{const a={id:uid(),name:n,url:$('#du').value.trim()};db.articles.push(a);view={t:'a',id:a.id}}
+ if(flush()){$('#dlg').close();render();toast('Artigo salvo')}};
+$('#dlg').addEventListener('keydown',e=>{if(e.key==='Enter')$('#ds').click()});
+$('#cfg').onclick=()=>{$('#cp').textContent=dir;$('#cdlg').showModal()};$('#cx').onclick=()=>$('#cdlg').close();$('#co').onclick=()=>shell.openPath(dir);
+render();
+</script></body></html>
