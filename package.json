@@ -1,0 +1,25 @@
+{
+  "name": "acura-comigo",
+  "version": "1.2.0",
+  "description": "Organizador de Checkpoint Semanal",
+  "author": "Acura Comigo",
+  "main": "main.js",
+  "scripts": { "start": "electron .", "dist": "electron-builder --win" },
+  "devDependencies": { "electron": "^33.0.0", "electron-builder": "^25.0.0" },
+  "build": {
+    "appId": "com.acuracomigo.app",
+    "productName": "Acura Comigo",
+    "files": ["main.js", "index.html", "acura-core.js", "package.json", "build/icon.ico", "build/icon.png"],
+    "win": { "icon": "build/icon.ico", "target": ["nsis", "portable"] },
+    "nsis": {
+      "artifactName": "Acura-Comigo-Setup-${version}.${ext}",
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico",
+      "installerHeaderIcon": "build/icon.ico",
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Acura Comigo"
+    },
+    "portable": { "artifactName": "Acura-Comigo-Portable-${version}.${ext}" }
+  }
+}
